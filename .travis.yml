@@ -13,4 +13,4 @@ install:
 
 script:
   - eslint --config .eslintrc.js src
-  - npm run build:client
+  - npm run build
