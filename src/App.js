@@ -1,7 +1,8 @@
 import React from "react";
-import Header from "./helpers/Header";
+import Header from "./components/Header";
 
 import "./App.css";
+
 const App = () => (
     <Header />
 );
