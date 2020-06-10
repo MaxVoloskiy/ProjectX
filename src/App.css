@@ -340,6 +340,11 @@ template {
 
 body {
   font-family: "Montserrat", sans-serif;
+  background-color: #F4F9FF;
+}
+
+.ytp-chrome-top {
+  display: none;
 }
 
 /*# sourceMappingURL=App.css.map */

@@ -1,10 +1,16 @@
 import React from "react";
-import Header from "./components/Header";
+import {BrowserRouter} from "react-router-dom";
+
+import Header from "./containers/Header";
+import ProjectsScreen from "./containers/projectsScreen";
 
 import "./App.css";
 
 const App = () => (
-    <Header />
+    <BrowserRouter>
+        <Header />
+        <ProjectsScreen />
+    </BrowserRouter>
 );
 
 export default App;
