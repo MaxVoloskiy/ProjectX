@@ -43,6 +43,9 @@ const ProjectsScreen = () => {
                 <button>submit your own</button>
             </Header>
             <ProjectBlock/>
+            <ProjectBlock/>
+            <ProjectBlock/>
+            <ProjectBlock/>
         </Container>
     );
 };
