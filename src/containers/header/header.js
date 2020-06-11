@@ -19,7 +19,7 @@ const Header = () => {
     return (
         <StyledHeader>
             <HeaderLogo>
-                <Link to="/"><img src="src/assets/logo.svg" alt="ProjectX logo"/></Link>
+                <Link to="/"><img src="/src/assets/logo.svg" alt="ProjectX logo"/></Link>
             </HeaderLogo>
             <Navigation/>
         </StyledHeader>

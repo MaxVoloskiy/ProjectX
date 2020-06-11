@@ -35,7 +35,7 @@ const Header = styled.header`
     }
 `;
 
-const ProjectsScreen = () => {
+const ProjectList = () => {
     return (
         <Container>
             <Header>
@@ -50,5 +50,5 @@ const ProjectsScreen = () => {
     );
 };
 
-export default ProjectsScreen;
+export default ProjectList;
 
