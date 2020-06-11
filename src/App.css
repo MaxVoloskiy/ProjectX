@@ -338,13 +338,20 @@ template {
   display: none;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   background-color: #F4F9FF;
 }
 
-.ytp-chrome-top {
-  display: none;
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /*# sourceMappingURL=App.css.map */

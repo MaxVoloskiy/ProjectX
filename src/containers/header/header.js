@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
-import Navigation from "../../components/Navigation";
+import Navigation from "../../components/navigation";
 
 const StyledHeader = styled.header`
   display: flex;
