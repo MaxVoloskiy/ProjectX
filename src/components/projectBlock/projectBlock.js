@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from "react";
 import styled from "styled-components";
 
@@ -22,18 +23,17 @@ const UpDownButtons = styled.div`
         background: transparent;
         cursor: pointer;
         margin: 8px 35px;
+        transition: 0.3s;
+        svg {
+            transition: 0.3s;
+            stroke: #EA157A;
+        }
         
-        &#btnUp {
+        &:hover {
             background-color: #EA157A;
             
             svg {
                 stroke: #ffffff;
-            }
-        }
-        
-        &#btnDown {
-            svg {
-                stroke: #EA157A;
             }
         }
     }
@@ -46,33 +46,24 @@ const Block = styled.div`
     background: #FFFFFF;
     box-shadow: 6px 6px 12px rgba(48, 68, 98, 0.12);
     border-radius: 10px;
+    width: 100%;
 `;
 
 const Video = styled.iframe`
     border-radius: 10px;
-    width: 435px;
     height: 250px;
 `;
 
 const BlockInfo = styled.div`
     padding: 20px;
-    
-    h1 {
-        margin: 0;
-        font-weight: 500;
-        font-size: 36px;
-        line-height: 44px;
-    }
-    
-    p {
-        font-size: 14px;
-        line-height: 17px;
-    }
-    
-    div {
-        margin-top: 20px;
-        display:flex;
-        align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+`;
+
+const Team = styled.div`
+    display:flex;
+    align-items: flex-end;
+    flex-grow: 1;
         
         img {
             height: 50px;
@@ -97,42 +88,59 @@ const BlockInfo = styled.div`
             line-height: 27px;
             color: #304462;
         }
-        
+`;
+
+const Information = styled.div`
+    h1 {
+        margin: 0;
+        font-weight: 500;
+        font-size: 27px;
+        line-height: 32px;
+    }
+    
+    p {
+        max-height: 50px;
+        margin: 15px 0;
+        font-size: 14px;
+        line-height: 17px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 `;
 
 
-const ProjectBlock = () => (
+const ProjectBlock = ({project}) => (
     <StyledBlock>
         <UpDownButtons>
-            <button id="btnUp">
+            <button>
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
                     <path d="M11 2.206l-6.235 7.528-.765-.645 7.521-9 7.479 9-.764.646-6.236-7.53v21.884h-1v-21.883z"/>
                 </svg>
             </button>
-            <button id="btnDown">
+            <button>
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
                     <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
                 </svg>
-
             </button>
         </UpDownButtons>
         <Block>
-            <Video id="iframeName" src="https://www.youtube.com/embed/-w3CcZ0Nz9Y" frameBorder="0"
+            <Video id="iframeName" src={"https://www.youtube.com/embed/" + project.videoLink.slice(-11)} frameBorder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
             />
             <BlockInfo>
-                <h1>Amazing Project title</h1>
-                <p>Short project description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas pretium turpis dapibus aliquet fames iaculis. Interdum vitae, sit non sapien mattis. Commodo vestibulum id posuere neque vulputate est orci. Diam justo ligula vitae dolor, tempus. Ac, arcu euismod massa dui ut. Aenean in quis platea...</p>
-                <div>
+                <Information>
+                    <h1>{project.title}</h1>
+                    <p>{project.content}</p>
+                </Information>
+                <Team>
                     <img id="firstPerson" src="/src/assets/person.jpg" alt=""/>
                     <img src="/src/assets/person.jpg" alt=""/>
                     <img src="/src/assets/person.jpg" alt=""/>
                     <img src="/src/assets/person.jpg" alt=""/>
 
                     <a href="#">learn more...</a>
-                </div>
+                </Team>
             </BlockInfo>
         </Block>
     </StyledBlock>

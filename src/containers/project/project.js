@@ -4,6 +4,9 @@ import styled from "styled-components";
 import TeamSlider from "../../components/teamSlider";
 import Highlights from "../../components/highlights";
 
+const Main = styled.main`
+`;
+
 const Video = styled.iframe`
     position:absolute;
     width:100%;
@@ -45,39 +48,48 @@ const SectionHeader = styled.h1`
     margin-bottom: 50px;
 `;
 
+const HighlightsSection = styled.section`
+`;
 
-const Project = () => (
-    <main>
-        <Video id="iframeName" src="https://www.youtube.com/embed/-w3CcZ0Nz9Y" frameBorder="0"
-               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-               allowFullScreen
-        />
-        <Description>
-            <DescriptionHeader>Amazing project title</DescriptionHeader>
-            <DescriptionContent>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium consequatur distinctio dolore dolorem ea eaque exercitationem incidunt ipsa iure laboriosam nihil praesentium quibusdam quos similique sunt tempora, velit vero voluptatem! Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam aliquid, beatae consectetur, cupiditate eos et ex excepturi harum illum magni minima, molestias neque nisi odio quae similique ullam veritatis. Facere hic incidunt ipsa? Aliquam nostrum pariatur recusandae rerum saepe. Debitis delectus distinctio doloremque eos fuga, fugiat maxime nemo, quibusdam repellendus saepe unde veritatis voluptatum? Obcaecati possimus quidem vel voluptates.
-                <br/>
-                <br/>
-                <b>Rhoncus duis commodo</b> <br/>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, animi cumque, et incidunt maxime modi molestias natus numquam quisquam, quos recusandae rem repellendus tenetur? Ad, eveniet nam? Alias, ducimus, repellendus.
-                <br/>
-                <br/>
-                <b>Curcus nest est sed</b><br/>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores atque fugiat in nesciunt nisi quidem, repudiandae suscipit! Adipisci cupiditate eaque, illo, ipsa laborum modi nemo nulla quibusdam soluta voluptatem voluptatum.
-            </DescriptionContent>
-        </Description>
-        <Team>
-            <SectionHeader>Project Dream Team</SectionHeader>
-            <TeamSlider />
-        </Team>
-        <section>
-            <SectionHeader>Project Highlights</SectionHeader>
-            <Highlights/>
-        </section>
-        <div>
-        </div>
-    </main>
-);
+const ChatSection = styled.section`
+    margin-top:100px;
+`;
 
+const Project = () => {
+
+    return (
+        <Main>
+            <Video id="iframeName" src="https://www.youtube.com/embed/-w3CcZ0Nz9Y" frameBorder="0"
+                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                   allowFullScreen
+            />
+            <Description>
+                <DescriptionHeader>Amazing project title</DescriptionHeader>
+                <DescriptionContent>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium consequatur distinctio dolore dolorem ea eaque exercitationem incidunt ipsa iure laboriosam nihil praesentium quibusdam quos similique sunt tempora, velit vero voluptatem! Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam aliquid, beatae consectetur, cupiditate eos et ex excepturi harum illum magni minima, molestias neque nisi odio quae similique ullam veritatis. Facere hic incidunt ipsa? Aliquam nostrum pariatur recusandae rerum saepe. Debitis delectus distinctio doloremque eos fuga, fugiat maxime nemo, quibusdam repellendus saepe unde veritatis voluptatum? Obcaecati possimus quidem vel voluptates.
+                    <br/>
+                    <br/>
+                    <b>Rhoncus duis commodo</b> <br/>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, animi cumque, et incidunt maxime modi molestias natus numquam quisquam, quos recusandae rem repellendus tenetur? Ad, eveniet nam? Alias, ducimus, repellendus.
+                    <br/>
+                    <br/>
+                    <b>Curcus nest est sed</b><br/>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores atque fugiat in nesciunt nisi quidem, repudiandae suscipit! Adipisci cupiditate eaque, illo, ipsa laborum modi nemo nulla quibusdam soluta voluptatem voluptatum.
+                </DescriptionContent>
+            </Description>
+            <Team>
+                <SectionHeader>Project Dream Team</SectionHeader>
+                <TeamSlider />
+            </Team>
+            <HighlightsSection>
+                <SectionHeader>Project Highlights</SectionHeader>
+                <Highlights/>
+            </HighlightsSection>
+            <ChatSection>
+                <SectionHeader>Project chat</SectionHeader>
+            </ChatSection>
+        </Main>
+    );
+};
 
 export default Project;
