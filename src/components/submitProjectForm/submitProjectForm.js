@@ -1,6 +1,8 @@
 /* eslint react/prop-types: 0 */
 import React, {useState} from "react";
 import styled from "styled-components";
+import * as tata from "tata-js";
+import {db} from "../../config/fbConfig";
 
 const Overlay = styled.div`
     height: 100%;
@@ -77,8 +79,6 @@ const Cross = styled.button`
     top: 20px;
     right: 20px;
     cursor: pointer;
-    
-    
 `;
 
 const CrossImg = styled.img`
@@ -86,20 +86,44 @@ const CrossImg = styled.img`
     width: 20px;
 `;
 
-const SubmitProjectForm = ({showForm, addProject, projects}) => {
+const SubmitProjectForm = (props) => {
+    const {showForm} = props;
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [videoLink, setVideoLink] = useState("");
 
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
-        addProject([...projects, {
-            title: title,
-            content: content,
-            videoLink: videoLink
-        }]);
-        showForm();
+
+    const tataSettings = {
+        duration: 3000,
+        closeBtn: true,
+        progress: true,
+        animate: "slide"
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (title && content && videoLink) {
+            try {
+                db.collection("projects")
+                    .add({
+                        title,
+                        content,
+                        videoLink
+                    })
+                    .then(() => {
+                        tata.success("Success", "The project has been created");
+                        showForm();
+                    })
+                    .catch((err) => {
+                        tata.error("Error", err.message, tataSettings);
+                    });
+            } catch (err) {
+                tata.error("Error", err.message, tataSettings);
+            }
+        } else {
+            tata.error("Error", "please fill in all the fields", tataSettings);
+        }
     };
 
     return (

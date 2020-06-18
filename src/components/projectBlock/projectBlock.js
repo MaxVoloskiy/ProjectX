@@ -1,6 +1,8 @@
 /* eslint react/prop-types: 0 */
 import React from "react";
 import styled from "styled-components";
+import {Link} from "react-router-dom";
+
 
 const StyledBlock = styled.div`
     display: flex;
@@ -55,6 +57,7 @@ const Video = styled.iframe`
 `;
 
 const BlockInfo = styled.div`
+    width: 100%;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -109,41 +112,46 @@ const Information = styled.div`
 `;
 
 
-const ProjectBlock = ({project}) => (
-    <StyledBlock>
-        <UpDownButtons>
-            <button>
-                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
-                    <path d="M11 2.206l-6.235 7.528-.765-.645 7.521-9 7.479 9-.764.646-6.236-7.53v21.884h-1v-21.883z"/>
-                </svg>
-            </button>
-            <button>
-                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
-                    <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
-                </svg>
-            </button>
-        </UpDownButtons>
-        <Block>
-            <Video id="iframeName" src={"https://www.youtube.com/embed/" + project.videoLink.slice(-11)} frameBorder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-            />
-            <BlockInfo>
-                <Information>
-                    <h1>{project.title}</h1>
-                    <p>{project.content}</p>
-                </Information>
-                <Team>
-                    <img id="firstPerson" src="/src/assets/person.jpg" alt=""/>
-                    <img src="/src/assets/person.jpg" alt=""/>
-                    <img src="/src/assets/person.jpg" alt=""/>
-                    <img src="/src/assets/person.jpg" alt=""/>
+const ProjectBlock = ({project}) => {
 
-                    <a href="#">learn more...</a>
-                </Team>
-            </BlockInfo>
-        </Block>
-    </StyledBlock>
-);
+    const { id } = project;
+    const {title, content, videoLink} = project.data();
+    return (
+        <StyledBlock>
+            <UpDownButtons>
+                <button>
+                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
+                        <path d="M11 2.206l-6.235 7.528-.765-.645 7.521-9 7.479 9-.764.646-6.236-7.53v21.884h-1v-21.883z"/>
+                    </svg>
+                </button>
+                <button>
+                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd">
+                        <path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/>
+                    </svg>
+                </button>
+            </UpDownButtons>
+            <Block>
+                <Video id="iframeName" src={"https://www.youtube.com/embed/" + videoLink.slice(-11)} frameBorder="0"
+                       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                       allowFullScreen
+                />
+                <BlockInfo>
+                    <Information>
+                        <h1>{title}</h1>
+                        <p>{content}</p>
+                    </Information>
+                    <Team>
+                        <img id="firstPerson" src="/src/assets/person.jpg" alt=""/>
+                        <img src="/src/assets/person.jpg" alt=""/>
+                        <img src="/src/assets/person.jpg" alt=""/>
+                        <img src="/src/assets/person.jpg" alt=""/>
+
+                        <Link href="#" to={`/projects/${id}`}>learn more...</Link>
+                    </Team>
+                </BlockInfo>
+            </Block>
+        </StyledBlock>
+    );
+};
 
 export default ProjectBlock;
