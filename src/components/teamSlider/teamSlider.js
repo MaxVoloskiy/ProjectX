@@ -1,3 +1,4 @@
+/* eslint react/prop-types: 0 */
 import React from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
@@ -39,14 +40,16 @@ const PersonName = styled.p`
 `;
 
 const PersonPosition = styled.p`
+    text-transform: lowercase;
     line-height:28px;
 `;
 
-const TeamSlider = () => {
+const TeamSlider = ({team}) => {
+
     let settings = {
         centerMode: true,
         centerPadding: "60px",
-        slidesToShow: 3,
+        slidesToShow: 1,
         responsive: [
             {
                 breakpoint: 768,
@@ -71,30 +74,18 @@ const TeamSlider = () => {
     return(
         <SliderSection {...settings}>
             <Slider>
-                <SliderItem>
-                    <Photo src="/src/assets/person.jpg" alt=""/>
-                    <Quote>“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus enim sit non eu, leo euismod enim. Ornare feugiat metus convallis ut proin gravida. Ac mauris et bibendum pharetra ac rhoncus.”</Quote>
-                    <PersonName>Petro Vasylykiv</PersonName>
-                    <PersonPosition>(project lead)</PersonPosition>
-                </SliderItem>
-                <SliderItem>
-                    <Photo src="/src/assets/person.jpg" alt=""/>
-                    <Quote>“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus enim sit non eu, leo euismod enim. Ornare feugiat metus convallis ut proin gravida. Ac mauris et bibendum pharetra ac rhoncus.”</Quote>
-                    <PersonName>Petro Vasylykiv</PersonName>
-                    <PersonPosition>(project lead)</PersonPosition>
-                </SliderItem>
-                <SliderItem>
-                    <Photo src="/src/assets/person.jpg" alt=""/>
-                    <Quote>“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus enim sit non eu, leo euismod enim. Ornare feugiat metus convallis ut proin gravida. Ac mauris et bibendum pharetra ac rhoncus.”</Quote>
-                    <PersonName>Petro Vasylykiv</PersonName>
-                    <PersonPosition>(project lead)</PersonPosition>
-                </SliderItem>
-                <SliderItem>
-                    <Photo src="/src/assets/person.jpg" alt=""/>
-                    <Quote>“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus enim sit non eu, leo euismod enim. Ornare feugiat metus convallis ut proin gravida. Ac mauris et bibendum pharetra ac rhoncus.”</Quote>
-                    <PersonName>Petro Vasylykiv</PersonName>
-                    <PersonPosition>(project lead)</PersonPosition>
-                </SliderItem>
+                {
+                    team && team.map((member, i) =>
+                        (
+                            <SliderItem key={i}>
+                                <Photo src="/src/assets/person.jpg" alt=""/>
+                                <Quote>“{member.quote}”</Quote>
+                                <PersonName>{member.name} {member.surname}</PersonName>
+                                <PersonPosition>({member.position})</PersonPosition>
+                            </SliderItem>
+                        )
+                    )
+                }
             </Slider>
         </SliderSection>
    );

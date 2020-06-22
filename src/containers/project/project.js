@@ -1,5 +1,8 @@
-import React from "react";
+/* eslint react/prop-types: 0 */
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
+import {db, tataSettings} from "../../config/fbConfig";
+import * as tata from "tata-js";
 
 import TeamSlider from "../../components/teamSlider";
 import Highlights from "../../components/highlights";
@@ -49,38 +52,59 @@ const SectionHeader = styled.h1`
 `;
 
 const HighlightsSection = styled.section`
+    margin-top: 50px;
 `;
 
 const ChatSection = styled.section`
     margin-top:100px;
 `;
 
-const Project = () => {
+const Project = (props) => {
+
+    const id = props.match.params.id;
+    const [project, setProject] = useState(null);
+    const [team, setTeam] = useState([]);
+
+    useEffect(() => {
+        db.doc(`/projects/${id}`)
+        .get().then(snap =>{
+            setProject(snap.data());
+        })
+        .catch((err) => tata.error("Error", err.message, tataSettings));
+
+        return setProject(null);
+    }, [id]);
+
+    useEffect(() => {
+        db.collection("team")
+            .where("projects", "array-contains", id)
+            .get()
+            .then(snap => {
+                let result = snap.docs.map(doc => doc.data());
+                setTeam(result);
+            });
+        return setTeam([]);
+    }, []);
 
     return (
         <Main>
-            <Video id="iframeName" src="https://www.youtube.com/embed/-w3CcZ0Nz9Y" frameBorder="0"
+            <Video id="iframeName" src={project && "https://www.youtube.com/embed/" + project.videoLink.slice(-11)} frameBorder="0"
                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                    allowFullScreen
             />
             <Description>
-                <DescriptionHeader>Amazing project title</DescriptionHeader>
+                <DescriptionHeader>{project && project.title}</DescriptionHeader>
                 <DescriptionContent>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium consequatur distinctio dolore dolorem ea eaque exercitationem incidunt ipsa iure laboriosam nihil praesentium quibusdam quos similique sunt tempora, velit vero voluptatem! Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam aliquid, beatae consectetur, cupiditate eos et ex excepturi harum illum magni minima, molestias neque nisi odio quae similique ullam veritatis. Facere hic incidunt ipsa? Aliquam nostrum pariatur recusandae rerum saepe. Debitis delectus distinctio doloremque eos fuga, fugiat maxime nemo, quibusdam repellendus saepe unde veritatis voluptatum? Obcaecati possimus quidem vel voluptates.
-                    <br/>
-                    <br/>
-                    <b>Rhoncus duis commodo</b> <br/>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, animi cumque, et incidunt maxime modi molestias natus numquam quisquam, quos recusandae rem repellendus tenetur? Ad, eveniet nam? Alias, ducimus, repellendus.
-                    <br/>
-                    <br/>
-                    <b>Curcus nest est sed</b><br/>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores atque fugiat in nesciunt nisi quidem, repudiandae suscipit! Adipisci cupiditate eaque, illo, ipsa laborum modi nemo nulla quibusdam soluta voluptatem voluptatum.
+                    {project && project.content}
                 </DescriptionContent>
             </Description>
-            <Team>
-                <SectionHeader>Project Dream Team</SectionHeader>
-                <TeamSlider />
-            </Team>
+
+            {(team.length !== 0 ) ?
+                <Team>
+                    <SectionHeader>Project Dream Team</SectionHeader>
+                    <TeamSlider team={team} />
+                </Team> : null
+            }
             <HighlightsSection>
                 <SectionHeader>Project Highlights</SectionHeader>
                 <Highlights/>

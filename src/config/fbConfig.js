@@ -16,6 +16,8 @@ const config = {
 firebase.initializeApp(config);
 export const db = firebase.firestore();
 export const storage = firebase.storage();
+export const database = firebase.database();
+
 
 export const tataSettings = {
     duration: 3000,

@@ -2,8 +2,7 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import ProjectBlock from "../../components/projectBlock";
 import SubmitProjectForm from "../../components/submitProjectForm";
-import { db, tataSettings } from "../../config/fbConfig";
-import * as tata from "tata-js";
+import { db } from "../../config/fbConfig";
 
 const Container = styled.main`
     max-width: 1200px;
@@ -41,18 +40,15 @@ const Header = styled.header`
 const ProjectList = () => {
 
     const [projects, setProjects] = useState(null);
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         db.collection("projects")
-            .get()
-            .then((snap) => {
+            .onSnapshot((snap) => {
                 setProjects(snap.docs);
-            })
-            .catch((err) => tata.error("Error", err.message, tataSettings));
+            });
         return setProjects(null);
     }, []);
-
-    const [showForm, setShowForm] = useState(false);
 
     const showFormFunc = () => setShowForm(!showForm);
     return (
