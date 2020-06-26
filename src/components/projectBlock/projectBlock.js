@@ -1,7 +1,8 @@
 /* eslint react/prop-types: 0 */
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {db} from "../../config/fbConfig";
 
 
 const StyledBlock = styled.div`
@@ -111,11 +112,24 @@ const Information = styled.div`
     }
 `;
 
-
 const ProjectBlock = ({project}) => {
 
     const { id } = project;
     const {title, content, videoLink} = project.data();
+    const [team, setTeam] = useState([]);
+
+
+    useEffect(() => {
+        db.collection("team")
+            .where("projects", "array-contains", id)
+            .get()
+            .then(snap => {
+                let result = snap.docs.map(doc => doc.data());
+                setTeam(result);
+            });
+        return setTeam([]);
+    }, []);
+
     return (
         <StyledBlock>
             <UpDownButtons>
@@ -141,10 +155,11 @@ const ProjectBlock = ({project}) => {
                         <p>{content}</p>
                     </Information>
                     <Team>
-                        <img id="firstPerson" src="/src/assets/person.jpg" alt=""/>
-                        <img src="/src/assets/person.jpg" alt=""/>
-                        <img src="/src/assets/person.jpg" alt=""/>
-                        <img src="/src/assets/person.jpg" alt=""/>
+                        {team.length !== 0 && team.map((member, i) => {
+                                return i === 0 ?
+                                    (<img id={"firstPerson"} src="/src/assets/person.jpg" alt="" key={i}/>) :
+                                    (<img src="/src/assets/person.jpg" alt="" key={i}/>);
+                        })}
 
                         <Link href="#" to={`/projects/${id}`}>learn more...</Link>
                     </Team>
