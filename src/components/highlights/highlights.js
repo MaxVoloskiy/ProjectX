@@ -1,6 +1,6 @@
+/* eslint react/prop-types: 0 */
 import React from "react";
 import styled from "styled-components";
-
 
 const HighlightsSection = styled.div`
     display: flex;
@@ -45,51 +45,22 @@ const HighlightText = styled.p`
 `;
 
 
-const Highlights = () => (
-    <HighlightsSection>
-        <HighlightsItem>
-            <HighlightImage src="/src/assets/picture.jpg" alt=""/>
-            <HighlightContent>
-                <HighlightHeader>Lorem ipsum dolor sit amet.</HighlightHeader>
-                <HighlightText>Consectetur adipiscing elit. Blandit ac augue a at neque non turpis feugiat nunc. Non lacus tempus nam ultricies auctor enim nisi et. Non lacus tempus nam ultricies auctor enim nisi et.</HighlightText>
-            </HighlightContent>
-        </HighlightsItem>
-        <HighlightsItem>
-            <HighlightImage src="/src/assets/picture.jpg" alt=""/>
-            <HighlightContent>
-                <HighlightHeader>Lorem ipsum dolor sit amet.</HighlightHeader>
-                <HighlightText>Consectetur adipiscing elit. Blandit ac augue a at neque non turpis feugiat nunc. Non lacus tempus nam ultricies auctor enim nisi et. Non lacus tempus nam ultricies auctor enim nisi et.</HighlightText>
-            </HighlightContent>
-        </HighlightsItem>
-        <HighlightsItem>
-            <HighlightImage src="/src/assets/picture.jpg" alt=""/>
-            <HighlightContent>
-                <HighlightHeader>Lorem ipsum dolor sit amet.</HighlightHeader>
-                <HighlightText>Consectetur adipiscing elit. Blandit ac augue a at neque non turpis feugiat nunc. Non lacus tempus nam ultricies auctor enim nisi et. Non lacus tempus nam ultricies auctor enim nisi et.</HighlightText>
-            </HighlightContent>
-        </HighlightsItem>
-        <HighlightsItem>
-            <HighlightImage src="/src/assets/picture.jpg" alt=""/>
-            <HighlightContent>
-                <HighlightHeader>Lorem ipsum dolor sit amet.</HighlightHeader>
-                <HighlightText>Consectetur adipiscing elit. Blandit ac augue a at neque non turpis feugiat nunc. Non lacus tempus nam ultricies auctor enim nisi et. Non lacus tempus nam ultricies auctor enim nisi et.</HighlightText>
-            </HighlightContent>
-        </HighlightsItem>
-        <HighlightsItem>
-            <HighlightImage src="/src/assets/picture.jpg" alt=""/>
-            <HighlightContent>
-                <HighlightHeader>Lorem ipsum dolor sit amet.</HighlightHeader>
-                <HighlightText>Consectetur adipiscing elit. Blandit ac augue a at neque non turpis feugiat nunc. Non lacus tempus nam ultricies auctor enim nisi et. Non lacus tempus nam ultricies auctor enim nisi et.</HighlightText>
-            </HighlightContent>
-        </HighlightsItem>
-        <HighlightsItem>
-            <HighlightImage src="/src/assets/picture.jpg" alt=""/>
-            <HighlightContent>
-                <HighlightHeader>Lorem ipsum dolor sit amet.</HighlightHeader>
-                <HighlightText>Consectetur adipiscing elit. Blandit ac augue a at neque non turpis feugiat nunc. Non lacus tempus nam ultricies auctor enim nisi et. Non lacus tempus nam ultricies auctor enim nisi et.</HighlightText>
-            </HighlightContent>
-        </HighlightsItem>
-    </HighlightsSection>
-);
+const Highlights = ({highlights}) => {
+    return (
+        <HighlightsSection>
+            {highlights.map(({title, content}, i) => (
+                   <HighlightsItem key={i}>
+                       <HighlightImage src="/src/assets/picture.jpg" alt=""/>
+                       <HighlightContent>
+                           <HighlightHeader>{title}</HighlightHeader>
+                           <HighlightText>
+                               {content.substring(0,200)}
+                           </HighlightText>
+                       </HighlightContent>
+                   </HighlightsItem>
+               ))}
+        </HighlightsSection>
+    );
+};
 
 export default Highlights;

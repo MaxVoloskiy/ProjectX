@@ -1,8 +1,7 @@
 /* eslint react/prop-types: 0 */
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {db, tataSettings} from "../../config/fbConfig";
-import * as tata from "tata-js";
+import {db} from "../../config/fbConfig";
 
 import TeamSlider from "../../components/teamSlider";
 import Highlights from "../../components/highlights";
@@ -69,8 +68,7 @@ const Project = (props) => {
         db.doc(`/projects/${id}`)
         .get().then(snap =>{
             setProject(snap.data());
-        })
-        .catch((err) => tata.error("Error", err.message, tataSettings));
+        });
 
         return setProject(null);
     }, [id]);
@@ -84,6 +82,19 @@ const Project = (props) => {
                 setTeam(result);
             });
         return setTeam([]);
+    }, []);
+
+    const [highlights, setHighlights] = useState([]);
+
+    useEffect(() => {
+        db.collection("highlights")
+            .where("projectId", "==", id)
+            .get().then(snap => {
+                let result = snap.docs.map(doc => doc.data());
+                setHighlights(result);
+        });
+
+        return setHighlights([]);
     }, []);
 
     return (
@@ -105,10 +116,14 @@ const Project = (props) => {
                     <TeamSlider team={team} />
                 </Team> : null
             }
-            <HighlightsSection>
-                <SectionHeader>Project Highlights</SectionHeader>
-                <Highlights/>
-            </HighlightsSection>
+
+            {(highlights.length !== 0) ?
+                <HighlightsSection>
+                    <SectionHeader>Project Highlights</SectionHeader>
+                    <Highlights highlights={highlights}/>
+                </HighlightsSection> : null
+            }
+
             <ChatSection>
                 <SectionHeader>Project chat</SectionHeader>
             </ChatSection>
