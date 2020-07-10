@@ -5,6 +5,7 @@ import {db} from "../../config/fbConfig";
 
 import TeamSlider from "../../components/teamSlider";
 import Highlights from "../../components/highlights";
+import ChatContainer from "../chatContainer";
 
 const Main = styled.main`
 `;
@@ -56,6 +57,7 @@ const HighlightsSection = styled.section`
 
 const ChatSection = styled.section`
     margin-top:100px;
+    margin-bottom: 100px;
 `;
 
 const Project = (props) => {
@@ -63,39 +65,35 @@ const Project = (props) => {
     const id = props.match.params.id;
     const [project, setProject] = useState(null);
     const [team, setTeam] = useState([]);
+    const [highlights, setHighlights] = useState([]);
 
     useEffect(() => {
+
         db.doc(`/projects/${id}`)
         .get().then(snap =>{
             setProject(snap.data());
         });
 
-        return setProject(null);
-    }, [id]);
-
-    useEffect(() => {
         db.collection("team")
             .where("projects", "array-contains", id)
-            .get()
-            .then(snap => {
+            .onSnapshot(snap => {
                 let result = snap.docs.map(doc => doc.data());
                 setTeam(result);
             });
-        return setTeam([]);
-    }, []);
 
-    const [highlights, setHighlights] = useState([]);
-
-    useEffect(() => {
-        db.collection("highlights")
-            .where("projectId", "==", id)
-            .get().then(snap => {
+        db.collection("team")
+            .where("projects", "array-contains", id)
+            .onSnapshot(snap => {
                 let result = snap.docs.map(doc => doc.data());
-                setHighlights(result);
-        });
+                setTeam(result);
+            });
 
-        return setHighlights([]);
-    }, []);
+        return () => {
+            setProject(null);
+            setTeam([]);
+            setHighlights([]);
+        };
+    }, [id]);
 
     return (
         <Main>
@@ -126,6 +124,7 @@ const Project = (props) => {
 
             <ChatSection>
                 <SectionHeader>Project chat</SectionHeader>
+                <ChatContainer chat={project && project.chat} id={id}/>
             </ChatSection>
         </Main>
     );
