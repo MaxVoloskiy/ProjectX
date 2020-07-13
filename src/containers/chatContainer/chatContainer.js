@@ -1,5 +1,6 @@
 /* eslint react/prop-types: 0 */
 import React, {useEffect, useState, useRef} from "react";
+import { useDidUpdate } from "../../hooks/useDidUpdate";
 import styled from "styled-components";
 import ChatMessage from "../../components/chatMessage";
 import {db, fieldValue} from "../../config/fbConfig";
@@ -9,7 +10,7 @@ const ChatContainerStyled = styled.div`
 
 const MessagesContainer = styled.div`
     height: 965px;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 0 20px;
 `;
 
@@ -19,7 +20,7 @@ const Form = styled.form`
     display: flex;
 `;
 
-const Textarea = styled.textarea`
+const Textarea = styled.input`
     height: 50px;
     width: 85%;
     resize: none;
@@ -57,7 +58,7 @@ const ChatContainer = ({id}) => {
 
     const [newMessage, setNewMessage] = useState(null);
     const [chat, setChat] = useState([]);
-    const textareaRef = useRef("");
+    const ref = useRef();
 
     useEffect(() => {
         db.doc(`/projects/${id}`).onSnapshot(
@@ -68,6 +69,13 @@ const ChatContainer = ({id}) => {
         return setChat(null);
     },[id]);
 
+    useDidUpdate(() => {
+        let lastEl = document.getElementById("lastEl");
+        if (lastEl) {
+            lastEl.scrollIntoView();
+        }
+    }, [chat]);
+
     const sendMessage = (e) => {
         e.preventDefault();
         if (newMessage) {
@@ -76,36 +84,39 @@ const ChatContainer = ({id}) => {
                     chat: fieldValue.arrayUnion({
                         id: "",
                         text: newMessage,
-                        createdAt: "Today",
+                        createdAt: new Date(),
                         createdBy: "John",
                         likes: 2,
                     }),
                 })
                 .then(() => {
-                    textareaRef.value = " ";
+                    ref.current.reset();
                     setNewMessage(null);
                 });
-                // .catch((err) => tata.error("Error", err.message, tataSettings));
-        } else {
-            // tata.error("Error", "no empty messages allowed", tataSettings);
         }
     };
 
     return (
         <ChatContainerStyled>
             <MessagesContainer>
-                {chat && chat.map(({createdAt, createdBy, text}, i) => (
-                    <ChatMessage
-                        key={i}
-                        date={createdAt}
-                        name={createdBy}
-                        text={text}
-                    />
-                ))}
+                {chat && chat.map(({createdAt, createdBy, text}, i) => {
+                    let id = null;
+                    if (i === chat.length - 1){
+                        id = "lastEl";
+                    }
+                    return (
+                        <ChatMessage
+                            id={id}
+                            key={i}
+                            date={createdAt}
+                            name={createdBy}
+                            text={text}
+                        />
+                    );
+                })}
             </MessagesContainer>
-            <Form onSubmit={sendMessage}>
+            <Form onSubmit={sendMessage} ref={ref}>
                 <Textarea
-                    ref={textareaRef}
                     autoFocus
                     defaultValue={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}

@@ -1,6 +1,7 @@
 /* eslint react/prop-types: 0 */
 import React from "react";
 import styled from "styled-components";
+import moment from "moment";
 
 const MessageContainer = styled.div`
     display: flex;
@@ -63,14 +64,16 @@ const LikesButton = styled.button`
     box-shadow: 6px 6px 12px rgba(48, 68, 98, 0.12);
     cursor: pointer;
 `;
-const ChatMessage = ({date, name, text}) => {
+const ChatMessage = ({date, name, text, id}) => {
     return (
-        <MessageContainer>
+        <MessageContainer
+            id={id}
+        >
             <Avatar src="/src/assets/person.jpg" alt=""/>
             <MessageContent>
                 <MessageHeader>
                     <Name>{name}</Name>
-                    <Date>{date}</Date>
+                    <Date>{moment(date.toDate()).calendar()}</Date>
                 </MessageHeader>
                 <Text>
                     {text}
